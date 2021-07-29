@@ -327,7 +327,7 @@ export default {
   padding: 3px;
   border: 2px dashed transparent;
   text-align: center;
-  width: 200px;
+  width: 100px;
 }
 
 .orgchart.l2r .node,

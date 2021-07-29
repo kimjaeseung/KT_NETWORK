@@ -80,6 +80,9 @@ export default {
       jobj3.id = "1";
       jobj3.name = "위치";
       jobj3.title = "DX-M1";
+
+
+
       var i2;
       var test2 = [];
       for (i2 = 0; i2 < this.data2.nc_listentpublicipsresponse.publicips.length; i2++) {  
@@ -93,9 +96,34 @@ export default {
         for(i3 = 0; i3< this.data2.nc_listentpublicipsresponse.publicips[i2].virtualips.length; i3++){
           var jobj5 = new Object();
           jobj5.id = i2+1;
-          jobj5.name = "endPort";
+          jobj5.name = "공인포트";
           jobj5.title = this.data2.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].publicendport;
           test3.push(jobj5);
+
+          var test4 = [];
+          var jobj6 = new Object();
+          jobj6.id = i2+2;
+          jobj6.name = "사설포트";
+          jobj6.title = this.data2.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].privateport;
+          test4.push(jobj6);
+          jobj5.children = test4
+
+          var test5 = [];
+          var jobj7 = new Object();
+          jobj7.id = i2+3;
+          jobj7.name = "사설IP";
+          jobj7.title = this.data2.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].vmguestip;
+          test5.push(jobj7);
+          jobj6.children = test5
+
+          var test6 = [];
+          var jobj8 = new Object();
+          jobj8.id = i2+4;
+          jobj8.name = "프로토콜";
+          jobj8.title = this.data2.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].protocol;
+          test6.push(jobj8);
+          jobj7.children = test6
+
         }
         jobj4.children = test3
       }

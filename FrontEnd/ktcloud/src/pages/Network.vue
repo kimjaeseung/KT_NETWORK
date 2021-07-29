@@ -62,7 +62,7 @@ export default {
       jobj.id = "1";
       jobj.name = "위치";
       jobj.title = "DX-M1";
-
+      
       var i;
       var test = [];
       for (i = 0; i < this.data.servers.length; i++) {

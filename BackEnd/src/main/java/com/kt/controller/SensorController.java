@@ -240,7 +240,31 @@ public class SensorController {
 				entity, String.class);
 		return response;
 	}
+	
+	
+	@ApiOperation(value = "KT Cloud ktkeypair", notes = "D1 서버 리스트 조회", response = Map.class)
+	@GetMapping(value = "/ktkeypair")
+	public JSONObject ktkeypair() throws ParseException, IOException, org.json.simple.parser.ParseException,
+			org.apache.tomcat.util.json.ParseException {
+		System.out.println("ktkeypair");
+		String auth = ktauthtoken();
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-Auth-Token", auth);
+		headers.add("content-type", "application/json");
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Header> entity = new HttpEntity<Header>(headers);
+		
+		ResponseEntity<String> response = rt.exchange("https://api.ucloudbiz.olleh.com/d1/server/os-keypairs",
+				HttpMethod.GET, entity, String.class);
+		
+		JSONParser jp = new JSONParser();
+		JSONObject jo = (JSONObject) jp.parse(response.getBody().toString());
 
+		return jo;
+	}
+	
+	
 	@ApiOperation(value = "KT Cloud authtoken", notes = "인증토큰", response = Map.class)
 	@GetMapping(value = "/ktauthtoken")
 	public String ktauthtoken() throws ParseException, IOException, org.json.simple.parser.ParseException,

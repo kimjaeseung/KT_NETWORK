@@ -3,7 +3,7 @@
       <div class="col-md-8">
         <card>
           <template slot="header">
-            <h4 class="card-title">KT Cloud Server 생성</h4><p></p>
+            <h4 class="card-title">KT Cloud Server 생성</h4><p>{{jsonadd()}}{{data2.keypairs[0].keypair.name}}</p>
             </h4>
             <div class="col-md-4">
             </div>
@@ -57,17 +57,11 @@
       Key Pair
     </div>
     <div class="col-4">
-      <b-form-input
-      id="input-live"
-      v-model="keypair"
-      :state="nameState2"
-      aria-describedby="input-live-help input-live-feedback"
-      placeholder="Enter your name"
-      trim
-    ></b-form-input>
-    <b-form-invalid-feedback id="input-live-feedback">
-      2글자 이상 적어주세요
-    </b-form-invalid-feedback>
+      <b-form-select v-model="keypair">
+              <option v-for="option in keypair2" v-bind:value="option.value">
+                 {{ option.text }}
+              </option>
+      </b-form-select>
     </div>
   </div>
   <p></p>
@@ -256,6 +250,8 @@ export default {
   data() {
     return {
       data: null,
+      data2: null,
+      keypair2: null,
       ip: null,
       ip2: '',
       value: '',
@@ -345,11 +341,39 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+    fetchData3() {
+      axios
+        .get("http://localhost:8080/ktkeypair")
+        .then(res => {
+          console.log(res);
+          this.data2 = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    jsonadd(){
+      var i;
+      var test = [];
+      for (i = 0; i < this.data2.keypairs.length; i++) {
+        var jobj2 = new Object();
+        jobj2.text = this.data2.keypairs[i].keypair.name
+        jobj2.value = this.data2.keypairs[i].keypair.name
+        test.push(jobj2);
+      }
+      console.log(test)
+      console.log("teststetsetest")
+      this.keypair2 = test
+    },
   },
   created() {
     this.fetchData();
     this.fetchData2();
+    this.fetchData3();
+  },
+  mounted(){
+
   }
 };
 </script>
