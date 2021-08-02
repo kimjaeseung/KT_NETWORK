@@ -3,7 +3,7 @@
       <div class="col-md-8">
         <card>
           <template slot="header">
-            <h4 class="card-title">KT Cloud Server 생성</h4><p>{{jsonadd()}}{{data2.keypairs[0].keypair.name}}</p>
+            <h4 class="card-title">KT Cloud Server 생성</h4><p>{{data2.keypairs[0].keypair.name}}</p>
             </h4>
             <div class="col-md-4">
             </div>
@@ -324,7 +324,6 @@ export default {
       axios
         .get("http://localhost:8080/ktfirewall")
         .then(res => {
-          console.log(res);
           this.data = res.data;
         })
         .catch(err => {
@@ -335,7 +334,6 @@ export default {
       axios
         .get("http://localhost:8080/ktip")
         .then(res => {
-          console.log(res);
           this.ip = res.data;
         })
         .catch(err => {
@@ -346,8 +344,8 @@ export default {
       axios
         .get("http://localhost:8080/ktkeypair")
         .then(res => {
-          console.log(res);
           this.data2 = res.data;
+          this.jsonadd();
         })
         .catch(err => {
           console.log(err);
@@ -362,18 +360,16 @@ export default {
         jobj2.value = this.data2.keypairs[i].keypair.name
         test.push(jobj2);
       }
-      console.log(test)
-      console.log("teststetsetest")
       this.keypair2 = test
     },
   },
   created() {
     this.fetchData();
-    this.fetchData2();
-    this.fetchData3();
   },
   mounted(){
-
+    this.fetchData2();
+    this.fetchData3();
+    this.jsonadd();
   }
 };
 </script>

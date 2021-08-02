@@ -11,6 +11,11 @@ import store from './store/index';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import VueSimpleAlert from "vue-simple-alert";
+
+Vue.use(VueSimpleAlert);
+
 Vue.use(PaperDashboard);
 Vue.prototype.$http = axios
 Vue.use(BootstrapVue)

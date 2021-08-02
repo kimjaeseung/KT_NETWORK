@@ -23,7 +23,7 @@
       <div class="card-body">
         <h2 class="card-title">자동 환경 검사</h2>
         <p>
-        <p class="card-text">정책, 라우팅 요청에 기반하여 자동으로 점검하고 생성합니다. 나머지 케이스는 추후에 확장 할 것입니다.</p>
+        <p class="card-text">정책, 라우팅 요청에 기반하여 자동으로 점검하고 생성합니다. 나머지 케이스는 추후에 확장할 예정입니다. 감사합니다.</p>
         <a href="#" class="btn btn-primary">네트워크 검사하러 가기</a>
       </div>
     </div>
@@ -33,7 +33,7 @@
       <div class="card-body">
         <h2 class="card-title">네트워크 토폴로지</h2>
         <p>
-        <p class="card-text">Cloud Server의 네트워크가 어떻게 연결되어 있는지, 상태는 어떤지 한눈에 확인할 수 있게 시각화를 제공하니다.</p>
+        <p class="card-text">Cloud Server의 네트워크가 어떻게 연결되어 있는지, 상태는 어떤지 한눈에 확인할 수 있게 시각화를 제공합니다. 감사합니다.</p>
         <a href="/loadingpage" class="btn btn-primary" >네트워크 그래프 보러가기</a>
       </div>
     </div>

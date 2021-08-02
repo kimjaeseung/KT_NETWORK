@@ -2,15 +2,15 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/main" name="main" icon="ti-panel"/>
+        <sidebar-link to="/main" name="main" icon="ti-layout"/>
         <sidebar-link to="/createserver" name="Server" icon="ti-server"/>
-        <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
-        <sidebar-link to="/Network" name="Zone Network" icon="ti-panel"/>        
-        <sidebar-link to="/Network2" name="Public IP Network" icon="ti-panel"/>        
-        <sidebar-link to="/Chartjs" name="Chartjs" icon="ti-panel"/>        
-        <sidebar-link to="/table-list" name="firewall" icon="ti-view-list-alt"/>
-        <sidebar-link to="/typography" name="topolo" icon="ti-text"/>
-        <sidebar-link to="/stats" name="stats" icon="ti-pencil-alt2"/>
+        <sidebar-link to="/Network" name="Zone Network" icon="ti-vector"/>        
+        <sidebar-link to="/Network2" name="Public IP Network" icon="ti-vector"/>
+        <sidebar-link to="/dashboard_vm" name="Dashboard" icon="ti-eye"/>        
+        <sidebar-link to="/check" name="Check" icon="ti-face-smile"/>        
+        <sidebar-link to="/Chartjs" name="Chartjs" icon="ti-github"/>
+        <!--<sidebar-link to="/table-list" name="firewall" icon="ti-view-list-alt"/>
+        <sidebar-link to="/typography" name="topolo" icon="ti-text"/>-->
       </template> 
       <mobile-menu>
         <li class="nav-item">

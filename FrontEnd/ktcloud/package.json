@@ -21,6 +21,7 @@
     "es6-promise": "^4.2.4",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
+    "sweetalert2": "^11.0.20",
     "vis": "^4.21.0-EOL",
     "vis-data": "^7.1.2",
     "vis-network": "^9.0.5",
@@ -30,7 +31,9 @@
     "vue-d3-network": "^0.1.28",
     "vue-notifyjs": "^0.3.0",
     "vue-router": "^3.0.1",
+    "vue-simple-alert": "^1.1.1",
     "vue-simple-spinner": "^1.2.10",
+    "vue-sweetalert2": "^5.0.2",
     "vue-vis-network": "^1.0.2",
     "vue-visjs": "^0.6.0",
     "vuex": "^3.6.2"

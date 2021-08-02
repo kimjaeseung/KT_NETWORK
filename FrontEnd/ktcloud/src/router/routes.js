@@ -4,6 +4,7 @@ import NotFound from "@/pages/NotFoundPage.vue";
 
 // Admin pages
 import Dashboard from "@/pages/Dashboard.vue";
+import Dashboard_vm from "@/pages/Dashboard_vm.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import Notifications from "@/pages/Notifications.vue";
 import createserver from "@/pages/createserver.vue";
@@ -11,6 +12,7 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 import main from "@/pages/Main.vue";
+import check from "@/pages/check.vue";
 import loadingpage from "@/pages/loadingpage.vue";
 import Network from "@/pages/Network.vue";
 import Network2 from "@/pages/Network2.vue";
@@ -31,9 +33,19 @@ const routes = [
         component: Dashboard
       },
       {
+        path: "dashboard_vm",
+        name: "dashboard_vm",
+        component: Dashboard_vm
+      },
+      {
         path: "stats",
         name: "stats",
         component: UserProfile
+      },
+      {
+        path: "check",
+        name: "check",
+        component: check
       },
       {
         path: "main",

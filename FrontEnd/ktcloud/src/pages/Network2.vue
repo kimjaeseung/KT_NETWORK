@@ -51,6 +51,7 @@ export default {
       ds3: null,
       data: null,
       data2: null,
+      data3: null,
       serverlist:'',
       selected: 'ZONE',
         options: [
@@ -75,13 +76,21 @@ export default {
           console.log(err);
         });
     },
+    ktfirewall() {
+       axios
+        .get("http://localhost:8080/ktd1firewall")
+        .then(res => {
+          this.data3 = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     jsonadd(){
       var jobj3 = new Object();
       jobj3.id = "1";
-      jobj3.name = "위치";
-      jobj3.title = "DX-M1";
-
-
+      jobj3.name = "Network";
+      jobj3.title = "external";
 
       var i2;
       var test2 = [];
@@ -116,17 +125,42 @@ export default {
           test5.push(jobj7);
           jobj6.children = test5
 
-          var test6 = [];
-          var jobj8 = new Object();
-          jobj8.id = i2+4;
-          jobj8.name = "프로토콜";
-          jobj8.title = this.data2.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].protocol;
-          test6.push(jobj8);
-          jobj7.children = test6
+          var j;
+          var j2;
+          for(j=0; j<this.data3.nc_listfirewallrulesresponse.firewallrules.length; j++){
+            for(j2=0; j2<this.data3.nc_listfirewallrulesresponse.firewallrules[j].acls.length; j2++){
+              if(this.data2.nc_listentpublicipsresponse.publicips[i2].ip == 
+              this.data3.nc_listfirewallrulesresponse.firewallrules[j].acls[j2].dstaddrs[0].ip.substring(3,16)
+              && this.data2.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].publicendport ==
+              this.data3.nc_listfirewallrulesresponse.firewallrules[j].acls[j2].dstaddrs[0].ip.substring(17,22)
+              ){
+
+                
+                var test6 = [];
+                var jobj8 = new Object();
+                jobj8.id = i2+4;
+                jobj8.name = "프로토콜";
+                jobj8.title = this.data3.nc_listfirewallrulesresponse.firewallrules[j].acls[j2].services[0].protocol;
+                test6.push(jobj8);
+                jobj7.children = test6
+
+                var test7 = [];
+                var jobj9 = new Object();
+                jobj9.id = i2+5;
+                jobj9.name = "Tier";
+                jobj9.title = this.data3.nc_listfirewallrulesresponse.firewallrules[j].acls[j2].dstintfs[0].networkname;
+                test7.push(jobj9);
+                jobj8.children = test7
+              }
+            }
+          }
+          
+          
 
         }
         jobj4.children = test3
       }
+
       jobj3.children = test2
       this.ds3 = jobj3
       console.log(this.ds3)
@@ -136,8 +170,10 @@ export default {
 
   created() {
     this.ktip();
+    this.ktfirewall();
   },
-
+  mounted(){
+  }
 }
 </script>
 

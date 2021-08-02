@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
@@ -21,13 +19,10 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.http.HttpEntity;
@@ -36,8 +31,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -159,7 +152,7 @@ public class SensorController {
 		String serverid = "";
 		JsonParser jp = new JsonParser();
 		JsonObject jo = (JsonObject) jp.parse(response.toString());
-
+		
 		String temp = jo.get("servers").toString();
 		JsonArray jo2 = (JsonArray) jp.parse(temp);
 		System.out.println("jo2::::" + jo2);
@@ -226,7 +219,104 @@ public class SensorController {
 		
 		return serverip;
 	}
+	
+	@ApiOperation(value = "KT Cloud ktd1tier", notes = "D1 서버 리스트 조회", response = Map.class)
+	@GetMapping(value = "/ktd1tier")
+	public List<Map<String, String>> ktd1tier() throws ParseException, IOException, org.json.simple.parser.ParseException,
+			org.apache.tomcat.util.json.ParseException {
+		String auth = ktauthtoken();
+		List<Map<Integer, String>> list = ktd1serveridlist();
+		Map<Integer, String> serverid = list.get(0);
+		Map<Integer, String> id = list.get(1);
+		List<Map<String, String>> result = new ArrayList<Map<String,String>>();
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-Auth-Token", auth);
+		headers.add("content-type", "application/json");
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Header> entity = new HttpEntity<Header>(headers);
+		for (int i = 0; i < serverid.size(); i++) {
+			System.out.println(serverid.get(i));
+			
+			ResponseEntity<String> response = rt.exchange("https://api.ucloudbiz.olleh.com/d1/server/servers/" + serverid.get(i),
+					HttpMethod.GET, entity, String.class);
+			JsonParser jp2 = new JsonParser();
+			JsonObject jo3 = (JsonObject) jp2.parse(response.getBody().toString());
+			JsonObject temp2 = (JsonObject) jo3.get("server");
 
+			System.out.println(jo3.toString());
+
+			JsonObject temp3 = (JsonObject) temp2.get("addresses");
+			
+			if(temp3.toString().substring(2,3).equals("D")) {
+				String temp4 = temp3.get("DMZ").toString();
+				
+				JsonParser jp6 = new JsonParser();
+				JsonArray jo4 = (JsonArray) jp6.parse(temp4);
+				JsonObject job2 = (JsonObject) jo4.get(0);
+				JsonElement id2 = job2.get("addr");
+				String serverip = strm(id2.toString());
+				
+				Map<String, String> tierlist = new HashMap<String, String>();
+				tierlist.put("id",id.get(i));
+				tierlist.put("tier", "DMZ");
+				tierlist.put("ip", serverip);
+				result.add(tierlist);
+				
+			}
+			else {
+				String temp4 = temp3.get("Private").toString();
+
+				JsonParser jp6 = new JsonParser();
+				JsonArray jo4 = (JsonArray) jp6.parse(temp4);
+				JsonObject job2 = (JsonObject) jo4.get(0);
+				JsonElement id2 = job2.get("addr");
+				String serverip = strm(id2.toString());
+				Map<String, String> tierlist = new HashMap<String, String>();
+				tierlist.put("id",id.get(i));
+				tierlist.put(id.get(i), "Private");
+				tierlist.put("ip", serverip);
+				result.add(tierlist);
+			}
+		}
+		System.out.println(result);
+		return result;
+	}
+	
+	@GetMapping(value = "/ktd1serveridlist")
+	public List<Map<Integer,String>> ktd1serveridlist() throws ParseException, IOException, org.json.simple.parser.ParseException,
+			org.apache.tomcat.util.json.ParseException {
+		System.out.println("ktd1serverid");
+		JSONObject response = ktd1serverlist();
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		Map<Integer, String> map2 = new HashMap<Integer, String>();
+		List<Map<Integer,String>> result = new ArrayList<Map<Integer,String>>();
+		JsonParser jp = new JsonParser();
+		JsonObject jo = (JsonObject) jp.parse(response.toString());
+		
+		String temp = jo.get("servers").toString();
+		JsonArray jo2 = (JsonArray) jp.parse(temp);
+		System.out.println("jo2::::" + jo2);
+		System.out.println("temp::::" + jo2);
+		
+		for (int i = 0; i < jo2.size(); i++) {
+			JsonObject job = (JsonObject) jo2.get(i);
+			String str = strm(job.get("name").toString());
+			System.out.println("name들:::" + str);
+			String serverid = null;
+			serverid = job.get("id").toString();
+			serverid = strm(serverid);
+			map.put(i, serverid);
+			map2.put(i, str);
+		}
+		result.add(map);
+		result.add(map2);
+		System.out.println(map);
+		
+		return result;
+	}
+	
+	
 	@ApiOperation(value = "KT Cloud ip", notes = "네트워크 조회", response = Map.class)
 	@GetMapping(value = "/ktip")
 	public ResponseEntity<String> ktip() throws ParseException, IOException, org.json.simple.parser.ParseException,
@@ -263,6 +353,29 @@ public class SensorController {
 
 		return jo;
 	}
+	
+	@ApiOperation(value = "KT Cloud ktd1firewall", notes = "D1 서버 리스트 조회", response = Map.class)
+	@GetMapping(value = "/ktd1firewall")
+	public JSONObject ktd1firewall() throws ParseException, IOException, org.json.simple.parser.ParseException,
+			org.apache.tomcat.util.json.ParseException {
+		System.out.println("ktd1firewall");
+		String auth = ktauthtoken();
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-Auth-Token", auth);
+		headers.add("content-type", "application/json");
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Header> entity = new HttpEntity<Header>(headers);
+		
+		ResponseEntity<String> response = rt.exchange("https://api.ucloudbiz.olleh.com/d1/nc/Firewall",
+				HttpMethod.GET, entity, String.class);
+		
+		JSONParser jp = new JSONParser();
+		JSONObject jo = (JSONObject) jp.parse(response.getBody().toString());
+		
+		return jo;
+	}
+	
 	
 	
 	@ApiOperation(value = "KT Cloud authtoken", notes = "인증토큰", response = Map.class)

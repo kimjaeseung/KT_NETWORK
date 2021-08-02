@@ -20,6 +20,7 @@
 <script>
 import { PaperTable } from "@/components";
 import axios from "axios";
+
 export default {
   components: {
   },
