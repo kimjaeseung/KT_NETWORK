@@ -3,7 +3,7 @@
       <div class="col-md-8">
         <card>
           <template slot="header">
-            <h4 class="card-title">KT Cloud Server 생성</h4><p>{{data2.keypairs[0].keypair.name}}</p>
+            <h4 class="card-title">KT Cloud Server 생성</h4>
             </h4>
             <div class="col-md-4">
             </div>
@@ -300,15 +300,15 @@ export default {
         ],
     selected3: 'radio3',
         options3: [
-          { text: 'CentOS 7.0 64bit', value: 'radio1' },
-          { text: 'CentOS 7.1 64bit', value: 'radio2' },
+          { text: 'CentOS 7.0 64bit', value: 'aa5ab18c-b818-4e45-b055-a0bc7a1fcc3a1' },
+          { text: 'CentOS 7.1 64bit', value: 'aa5ab18c-b818-4e45-b055-a0bc7a1fcc3a2' },
           { text: 'CentOS 7.6 64bit', value: 'fa8fdef3-fb2c-43fd-ad38-de858c39a53a'},
           { text: 'CentOS 7.8 64bit', value: '8e373c2e-77c4-4881-ba9c-7c704002608b' },
-          { text: 'CentOS 7.9 64bit', value: 'radio5' },
+          { text: 'CentOS 7.9 64bit', value: 'aa5ab18c-b818-4e45-b055-a0bc7a1fcc3a3' },
           { text: 'CentOS 7.2 64bit', value: 'aa5ab18c-b818-4e45-b055-a0bc7a1fcc3a' },
         ],
     flavorRef: 'radio4',
-        options4: [
+        options4: [ 
           { text: '1vCore 1GB', value: 'f9764e6b-1b46-421d-8998-816c2d8d13ce' },
           { text: '1vCore 2GB', value: 'f9764e6b-1b46-421d-8998-816c2d8d13ce2' },
           { text: '2vCore 2GB', value: 'e31c8e80-3902-4194-8808-2e0784e5c6d0'},

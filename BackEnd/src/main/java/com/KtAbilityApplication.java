@@ -10,4 +10,3 @@ public class KtAbilityApplication {
 		SpringApplication.run(KtAbilityApplication.class, args);
 	}
 }
-  

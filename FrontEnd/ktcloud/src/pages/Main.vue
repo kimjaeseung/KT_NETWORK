@@ -9,7 +9,7 @@
   <div class="col-sm-4">
     <div class="card" style="text-align:center;">
       <div class="card-body">
-        <h2 class="card-title">자동 환경 구성</h2>  
+        <h2 class="card-title">자동 환경 구성</h2>
         <p>
         <p class="card-text">서버 VM, 포트포워딩을 생성하면 정책, 라우팅을 자동으로 구성해줍니다. 더불어 ping
             테스트 + 포트스캔으로 네트워크 상태를 점검합니다.
@@ -59,5 +59,5 @@ export default {
 
 };
 </script>
-<style>
+<style> 
 </style>

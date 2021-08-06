@@ -34,10 +34,11 @@ export default {
     },
     selectNo (nodeData) {
         this.$alert(
-      "정상 작동중",
+      "",
       this.selectaler(nodeData.title),
       //selectaler(nodeData),
-      "success"
+      //"success"
+      this.successsub(this.selectaler(nodeData.title))
     ).then(() => console.log("Closed"));
     },
     selectaler(nodeData){
@@ -57,7 +58,8 @@ export default {
                 + "\n사설포트: "+this.data5.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].privateport + 
                 "\nprotocol: "+this.data5.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].protocol +
                 "\npublicendport: "
-                + this.data5.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].publicendport;
+                + this.data5.nc_listentpublicipsresponse.publicips[i2].virtualips[i3].publicendport
+                + "\n\n 정상 작동중입니다.";
               }
             }
           }
@@ -65,6 +67,13 @@ export default {
         }
       }
       return result;
+    },
+    successsub(strtt){
+      if(strtt==null){
+        return "warning"
+      }else{
+        return "success"
+      }
     },
     serverList() {
       axios

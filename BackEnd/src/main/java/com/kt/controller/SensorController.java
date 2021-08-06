@@ -120,7 +120,6 @@ public class SensorController {
 	@GetMapping(value = "/ktd1serverlist")
 	public JSONObject ktd1serverlist() throws ParseException, IOException, org.json.simple.parser.ParseException,
 			org.apache.tomcat.util.json.ParseException {
-		System.out.println("serverlist");
 		String auth = ktauthtoken();
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -147,27 +146,22 @@ public class SensorController {
 	@GetMapping(value = "/ktd1serverid")
 	public String ktd1serverid() throws ParseException, IOException, org.json.simple.parser.ParseException,
 			org.apache.tomcat.util.json.ParseException {
-		System.out.println("ktd1serverid");
 		JSONObject response = ktd1serverlist();
 		String serverid = "";
 		JsonParser jp = new JsonParser();
 		JsonObject jo = (JsonObject) jp.parse(response.toString());
 		
-		String temp = jo.get("servers").toString();
+		String temp = jo.get("servers").toString(); 
 		JsonArray jo2 = (JsonArray) jp.parse(temp);
-		System.out.println("jo2::::" + jo2);
-		System.out.println("temp::::" + jo2);
 
 		for (int i = 0; i < jo2.size(); i++) {
 			JsonObject job = (JsonObject) jo2.get(i);
 			String str = strm(job.get("name").toString());
-			System.out.println("name들:::" + str);
 			if (str.equals(servername)) {
-				System.out.println("서버 이름이 같아요!!");
 				serverid = job.get("id").toString();
 			}
 		}
-		serverid = strm(serverid);
+		serverid = strm(serverid); 
 		return serverid;
 	}
 
@@ -177,9 +171,7 @@ public class SensorController {
 			org.apache.tomcat.util.json.ParseException {
 		String auth = ktauthtoken();
 		String serverid = ktd1serverid();
-		System.out.println(serverid);
 		try {
-			System.out.println("네트워크 생성 기다리는중...");
 			Thread.sleep(20000);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -195,22 +187,17 @@ public class SensorController {
 
 		JsonParser jp2 = new JsonParser();
 		JsonObject jo3 = (JsonObject) jp2.parse(response.getBody().toString());
-		System.out.println("jo3::::::::" + jo3.toString());
 
 		JsonParser jp6 = new JsonParser();
 
 		JsonObject temp2 = (JsonObject) jo3.get("server");
 
-		System.out.println("jo3::::::::" + jo3.toString());
-		System.out.println("temp2::::::::" + temp2.toString());
 
 		JsonObject temp3 = (JsonObject) temp2.get("addresses");
 
-		System.out.println("temp3::::::::" + temp3.toString());
 				
 		String temp4 = temp3.get("DMZ").toString();
 		
-		System.out.println("temp4::::::::" + temp4); 
 		
 		JsonArray jo4 = (JsonArray) jp6.parse(temp4);
 		JsonObject job2 = (JsonObject) jo4.get(0);
@@ -236,15 +223,11 @@ public class SensorController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Header> entity = new HttpEntity<Header>(headers);
 		for (int i = 0; i < serverid.size(); i++) {
-			System.out.println(serverid.get(i));
-			
 			ResponseEntity<String> response = rt.exchange("https://api.ucloudbiz.olleh.com/d1/server/servers/" + serverid.get(i),
 					HttpMethod.GET, entity, String.class);
 			JsonParser jp2 = new JsonParser();
 			JsonObject jo3 = (JsonObject) jp2.parse(response.getBody().toString());
 			JsonObject temp2 = (JsonObject) jo3.get("server");
-
-			System.out.println(jo3.toString());
 
 			JsonObject temp3 = (JsonObject) temp2.get("addresses");
 			
@@ -286,7 +269,6 @@ public class SensorController {
 	@GetMapping(value = "/ktd1serveridlist")
 	public List<Map<Integer,String>> ktd1serveridlist() throws ParseException, IOException, org.json.simple.parser.ParseException,
 			org.apache.tomcat.util.json.ParseException {
-		System.out.println("ktd1serverid");
 		JSONObject response = ktd1serverlist();
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		Map<Integer, String> map2 = new HashMap<Integer, String>();
@@ -296,13 +278,10 @@ public class SensorController {
 		
 		String temp = jo.get("servers").toString();
 		JsonArray jo2 = (JsonArray) jp.parse(temp);
-		System.out.println("jo2::::" + jo2);
-		System.out.println("temp::::" + jo2);
 		
 		for (int i = 0; i < jo2.size(); i++) {
 			JsonObject job = (JsonObject) jo2.get(i);
 			String str = strm(job.get("name").toString());
-			System.out.println("name들:::" + str);
 			String serverid = null;
 			serverid = job.get("id").toString();
 			serverid = strm(serverid);
@@ -311,7 +290,6 @@ public class SensorController {
 		}
 		result.add(map);
 		result.add(map2);
-		System.out.println(map);
 		
 		return result;
 	}
@@ -336,7 +314,6 @@ public class SensorController {
 	@GetMapping(value = "/ktkeypair")
 	public JSONObject ktkeypair() throws ParseException, IOException, org.json.simple.parser.ParseException,
 			org.apache.tomcat.util.json.ParseException {
-		System.out.println("ktkeypair");
 		String auth = ktauthtoken();
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -358,7 +335,6 @@ public class SensorController {
 	@GetMapping(value = "/ktd1firewall")
 	public JSONObject ktd1firewall() throws ParseException, IOException, org.json.simple.parser.ParseException,
 			org.apache.tomcat.util.json.ParseException {
-		System.out.println("ktd1firewall");
 		String auth = ktauthtoken();
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -413,7 +389,6 @@ public class SensorController {
 		ResponseEntity<String> response = rt.exchange("https://api.ucloudbiz.olleh.com/d1/identity/auth/tokens",
 				HttpMethod.POST, entity, String.class);
 		HttpHeaders test = response.getHeaders();
-		System.out.println("인증토큰!!" + test.get("x-subject-token"));
 		List<String> temp = test.get("x-subject-token");
 		String auth = temp.get(0);
 		return auth;
@@ -444,7 +419,6 @@ public class SensorController {
 
 		JsonArray jArray2 = new JsonArray();
 		jsonObject7.addProperty("uuid", nuuid);
-		System.out.println("network:::::"+nuuid);
 		jArray2.add(jsonObject7);
 		jsonObject9.add("networks", jArray2);
 
@@ -454,7 +428,6 @@ public class SensorController {
 		jsonObject9.addProperty("name", name);
 		servername = name;
 		jsonObject5.add("server", jsonObject9);
-		System.out.println(jsonObject5);
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("X-Auth-Token", authtoke);
@@ -520,14 +493,99 @@ public class SensorController {
 
 		ResponseEntity<String> t = ktd1createfirewall();
 		
-		System.out.println(t);
 		String last = "";
 		try {
 			System.out.println("방화벽 정책 생성 + ping test 진행중.. 약 1분정도 소요됩니다.");
 			for (int i = 0; i < 30; i++) {
 				Thread.sleep(1000);
 				System.out.println(i*5+"초 경과..");
-				last = cmdstr();
+				last = cmdstr(ip, publicport);
+				if(last.contains("Port is open")) {
+					System.out.println("ping 연결이 확인되었습니다.");
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		System.out.println(last);
+		return last;
+	}
+
+	@GetMapping(value = "/sid")
+	public String sid() throws ParseException, IOException, org.json.simple.parser.ParseException,
+			org.apache.tomcat.util.json.ParseException {
+		String auth = ktauthtoken();
+		String sname = ktd1serverid();
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-Auth-Token", auth);
+		headers.add("content-type", "application/json");
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Header> entity = new HttpEntity<Header>(headers);
+		ResponseEntity<String> response = rt.exchange("https://api.ucloudbiz.olleh.com/d1/server/servers/" + sname,
+				HttpMethod.GET, entity, String.class);
+
+		JsonParser jp2 = new JsonParser();
+		JsonObject jo3 = (JsonObject) jp2.parse(response.getBody().toString());
+
+		JsonParser jp6 = new JsonParser();
+
+		JsonObject temp2 = (JsonObject) jo3.get("server");
+
+
+		JsonObject temp3 = (JsonObject) temp2.get("addresses");
+
+				
+		String temp4 = temp3.get("DMZ").toString();
+		
+		
+		JsonArray jo4 = (JsonArray) jp6.parse(temp4);
+		JsonObject job2 = (JsonObject) jo4.get(0);
+		JsonElement id = job2.get("addr");
+		String serverip = id.toString();
+		
+		return serverip;
+	}
+	
+	@PostMapping(value = "/portfire")
+	public String portfire(@RequestParam String sname) throws ParseException, IOException,
+			org.json.simple.parser.ParseException, org.apache.tomcat.util.json.ParseException {
+		String authtoke = ktauthtoken();
+		servername = sname;
+		JsonObject jsonObject1 = new JsonObject();	
+		String serverip = strm(sid());
+		int min = 10000;
+		int max = 10999;
+		int random = (int) ((Math.random() * (max - min)) + min);
+		String publicport = Integer.toString(random);
+		pubp = publicport;
+		ddip = serverip;
+		System.out.println("포트포워딩 생성중");
+		System.out.println("serverip: " + serverip);
+		System.out.println("privateport: " + "22");
+		System.out.println("publicport: " + publicport);
+		System.out.println("protocol: " + "TCP");
+		jsonObject1.addProperty("vmguestip", serverip);
+		jsonObject1.addProperty("entpublicipid", "02f42fe4-f961-4d5e-badb-555230978971");
+		jsonObject1.addProperty("privateport", "22");
+		jsonObject1.addProperty("publicport", publicport);
+		jsonObject1.addProperty("protocol", "TCP");
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-Auth-Token", authtoke);
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject1.toString(), headers);
+		ResponseEntity<String> response = rt.exchange("https://api.ucloudbiz.olleh.com/d1/nc/Portforwarding",
+				HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> t = ktd1createfirewall();
+		String last = "";
+		String tsip = "211.34.247.18"; 
+		try {
+			System.out.println("방화벽 정책 생성 + ping test 진행중.. 약 1분정도 소요됩니다.");
+			for (int i = 0; i < 30; i++) {
+				Thread.sleep(1000);
+				System.out.println(i*5+"초 경과..");
+				last = cmdstr(tsip, publicport);
 				System.out.println(last);
 				if(last.contains("Port is open")) {
 					System.out.println("ping 연결 확인됨 !!");
@@ -537,12 +595,34 @@ public class SensorController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
 		System.out.println(last);
-		
 		return last;
 	}
-
+	
+	
+	
+	@PostMapping(value = "/pingck")
+	public String pingck(@RequestParam String publicport, @RequestParam String ip) throws ParseException, IOException,
+			org.json.simple.parser.ParseException, org.apache.tomcat.util.json.ParseException {
+		String last = "";
+		try {
+			System.out.println("ping test 진행중.. 약 30초 정도 소요됩니다.");
+			for (int i = 0; i < 4; i++) {
+				Thread.sleep(1000);
+				System.out.println(i*5+"초 경과..");
+				last = cmdstr(ip, publicport);
+				if(last.contains("Port is open")) {
+					System.out.println("ping 연결 확인됨 !!");
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		System.out.println(last);
+		return last;
+	}
+	
 	@ApiOperation(value = "KT Cloud Create Server", notes = "서버 생성", response = Map.class)
 	@PostMapping(value = "/ktcreateserver")
 	public String ktcreateserver(
@@ -705,8 +785,8 @@ public class SensorController {
 	}
 	
 	@GetMapping(value = "/cmdstr")
-	public String cmdstr() {
-		String tmp = "tcping "+ddip+" "+pubp;
+	public String cmdstr(String ip, String pub) {
+		String tmp = "tcping "+ip+" "+pub;
 		System.out.println(tmp);
 		String comd = inputCommand(tmp);
 		String result = execCommand(comd);
